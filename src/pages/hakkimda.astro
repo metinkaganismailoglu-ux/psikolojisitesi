@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { PROFILE, SITE } from '../config/site';
+
+const breadcrumbs = [{ name: 'Hakkımda', path: '/hakkimda' }];
+
+const approach = [
+  {
+    icon: 'heart',
+    title: 'Çocuğun hızına saygı',
+    text: 'Terapi, çocuğun hazır olduğu yerden başlar. Hiçbir çocuk konuşmaya, anlatmaya veya oyuna zorlanmaz.',
+  },
+  {
+    icon: 'users',
+    title: 'Aile sistemi bakışı',
+    text: 'Bir çocuğun davranışı, içinde bulunduğu ilişki ağından bağımsız düşünülemez. Bu nedenle aile sürecin parçasıdır.',
+  },
+  {
+    icon: 'shield',
+    title: 'Etik ve gizlilik',
+    text: 'Meslek etiği ilkeleri çerçevesinde çalışırım. Gizlilik, yalnızca güvenlik riski olan durumlarda sınırlanır.',
+  },
+  {
+    icon: 'check',
+    title: 'Ölçülebilir hedefler',
+    text: 'Sürecin başında somut hedefler belirlenir ve düzenli aralıklarla birlikte gözden geçirilir.',
+  },
+];
+---
+
+<BaseLayout
+  title="Hakkımda"
+  description={`${SITE.name} kimdir? Eğitim geçmişi, terapi yaklaşımı ve çocuk-ergen psikolojisi alanındaki çalışma biçimi.`}
+  path="/hakkimda"
+  breadcrumbs={breadcrumbs}
+>
+  <PageHero
+    eyebrow="Hakkımda"
+    title={`Merhaba, ben ${SITE.name}`}
+    text={PROFILE.intro}
+    breadcrumbs={breadcrumbs}
+  />
+
+  <section class="container-x py-16 md:py-24">
+    <div class="grid gap-14 lg:grid-cols-[0.8fr_1.2fr]">
+      <div class="reveal">
+        <div class="relative">
+          <div class="absolute -inset-3 rotate-2 rounded-5xl bg-pine-100"></div>
+          <img
+            src="/images/portre.svg"
+            alt={`${SITE.name} portresi`}
+            width="640"
+            height="800"
+            loading="eager"
+            decoding="async"
+            class="relative aspect-4/5 w-full rounded-5xl object-cover shadow-soft"
+          />
+        </div>
+
+        <dl class="mt-10 space-y-5 rounded-4xl border border-sand-200 bg-white p-7">
+          {
+            PROFILE.stats.map((stat) => (
+              <div class="flex items-baseline gap-4">
+                <dd class="font-display text-3xl font-semibold text-pine-700">{stat.value}</dd>
+                <dt class="text-sm text-ink-muted">{stat.label}</dt>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+
+      <div class="reveal" data-delay="120">
+        <div class="space-y-5 text-lg leading-relaxed text-ink-muted">
+          {PROFILE.bio.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+
+        <div class="mt-12 grid gap-4 sm:grid-cols-2">
+          {
+            approach.map((item) => (
+              <div class="rounded-4xl border border-sand-200 bg-white p-6">
+                <span class="grid size-11 place-items-center rounded-xl bg-pine-50 text-pine-600">
+                  <Icon name={item.icon} size={22} />
+                </span>
+                <p class="mt-5 font-display text-lg font-semibold text-pine-900">{item.title}</p>
+                <p class="mt-2 text-sm leading-relaxed text-ink-muted">{item.text}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white/60 py-16 md:py-24">
+    <div class="container-x">
+      <SectionHeading eyebrow="Eğitim ve Sertifikalar" title="Mesleki geçmiş" align="center" />
+
+      <div class="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-2">
+        <div class="reveal card p-7">
+          <p class="font-display text-lg font-semibold text-pine-900">Eğitim</p>
+          <ul class="mt-5 space-y-5">
+            {
+              PROFILE.education.map((item) => (
+                <li class="border-l-2 border-pine-100 pl-4">
+                  <p class="font-semibold text-ink">{item.title}</p>
+                  <p class="mt-1 text-sm text-ink-muted">
+                    {item.org} · {item.year}
+                  </p>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="reveal card p-7" data-delay="100">
+          <p class="font-display text-lg font-semibold text-pine-900">Sertifikalar</p>
+          <ul class="mt-5 space-y-5">
+            {
+              PROFILE.certificates.map((item) => (
+                <li class="border-l-2 border-clay-200 pl-4">
+                  <p class="font-semibold text-ink">{item.title}</p>
+                  <p class="mt-1 text-sm text-ink-muted">
+                    {item.org} · {item.year}
+                  </p>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+
+      <div class="mx-auto mt-6 max-w-4xl">
+        <div class="reveal card flex flex-wrap items-center gap-x-4 gap-y-2 p-6">
+          <span class="text-sm font-semibold tracking-[0.12em] text-ink-muted uppercase">Üyelikler</span>
+          {
+            PROFILE.memberships.map((item) => (
+              <span class="rounded-full bg-pine-50 px-4 py-1.5 text-sm font-medium text-pine-800">{item}</span>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Tanışalım mı?"
+    text="Sürecin size uygun olup olmadığını konuşmak için kısa bir ön görüşme yeterli."
+  />
+</BaseLayout>

@@ -1,0 +1,200 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+
+  --color-sand-50: #fdfbf7;
+  --color-sand-100: #f8f3ea;
+  --color-sand-200: #efe6d7;
+  --color-sand-300: #e2d3bd;
+
+  --color-pine-50: #f0f7f6;
+  --color-pine-100: #d9ebe9;
+  --color-pine-200: #b4d7d3;
+  --color-pine-300: #85bcb6;
+  --color-pine-400: #559b95;
+  --color-pine-500: #3a807a;
+  --color-pine-600: #2f6f6b;
+  --color-pine-700: #275a57;
+  --color-pine-800: #204846;
+  --color-pine-900: #1a3a38;
+
+  --color-clay-100: #fdeee2;
+  --color-clay-200: #f9d8bd;
+  --color-clay-300: #f2b98c;
+  --color-clay-400: #e89a5f;
+  --color-clay-500: #d97f3d;
+  --color-clay-600: #b96428;
+
+  --color-ink: #1e2b2a;
+  --color-ink-muted: #566462;
+
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.75rem;
+
+  --shadow-soft: 0 1px 2px rgb(30 43 42 / 0.04), 0 12px 32px -12px rgb(30 43 42 / 0.16);
+  --shadow-lift: 0 2px 4px rgb(30 43 42 / 0.05), 0 24px 48px -20px rgb(30 43 42 / 0.28);
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-sand-50);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01';
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-pine-600);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-pine-200);
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-x {
+      padding-inline: 2rem;
+    }
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    padding: 0.8rem 1.6rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.2;
+    transition:
+      transform 0.25s var(--ease-soft),
+      background-color 0.25s var(--ease-soft),
+      color 0.25s var(--ease-soft),
+      box-shadow 0.25s var(--ease-soft);
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    background-color: var(--color-pine-600);
+    color: var(--color-sand-50);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-pine-700);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-pine-800);
+    border: 1px solid var(--color-pine-300);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-pine-50);
+    border-color: var(--color-pine-500);
+  }
+
+  .card {
+    background-color: #fff;
+    border: 1px solid var(--color-sand-200);
+    border-radius: var(--radius-4xl);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    background-color: var(--color-pine-50);
+    color: var(--color-pine-700);
+    padding: 0.35rem 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+@layer utilities {
+  .grain {
+    background-image: radial-gradient(circle at 1px 1px, rgb(30 43 42 / 0.06) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+
+  /* Giriş animasyonu yalnızca JavaScript çalışıyorsa uygulanır;
+     aksi hâlde içerik (ve JS çalıştırmayan tarayıcı/botlar için) baştan görünürdür. */
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s var(--ease-soft),
+      transform 0.7s var(--ease-soft);
+  }
+
+  .js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

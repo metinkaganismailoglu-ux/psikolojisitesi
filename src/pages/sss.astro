@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import FaqList from '../components/FaqList.astro';
+import PageHero from '../components/PageHero.astro';
+import { FAQS } from '../config/site';
+import { getServices } from '../lib/services';
+import { faqSchema } from '../lib/schema';
+
+const services = await getServices();
+const serviceFaqs = services.flatMap((service) =>
+  service.data.faqs.map((faq) => ({ ...faq, group: service.data.shortTitle, href: `/hizmetler/${service.id}` })),
+);
+
+const breadcrumbs = [{ name: 'S.S.S.', path: '/sss' }];
+const schema = [faqSchema([...FAQS, ...serviceFaqs.map(({ q, a }) => ({ q, a }))])];
+
+const groups = services
+  .filter((service) => service.data.faqs.length > 0)
+  .map((service) => ({
+    id: `hizmet-${service.id}`,
+    title: service.data.shortTitle,
+    href: `/hizmetler/${service.id}`,
+    faqs: service.data.faqs,
+  }));
+---
+
+<BaseLayout
+  title="Sık Sorulan Sorular"
+  description="Terapi süreci, seans süresi, ücretler, gizlilik, online terapi ve çocuk terapisi hakkında en sık sorulan soruların yanıtları."
+  path="/sss"
+  breadcrumbs={breadcrumbs}
+  schema={schema}
+>
+  <PageHero
+    eyebrow="S.S.S."
+    title="Sık sorulan sorular"
+    text="Terapi süreciyle ilgili en çok merak edilenleri bir araya getirdim. Aradığınız yanıtı bulamazsanız çekinmeden yazın."
+    breadcrumbs={breadcrumbs}
+  />
+
+  <section class="container-x py-16 md:py-24">
+    <div class="grid gap-12 lg:grid-cols-[0.3fr_0.7fr]">
+      <nav aria-label="Soru grupları" class="lg:sticky lg:top-28 lg:self-start">
+        <p class="text-xs font-semibold tracking-[0.12em] text-ink-muted uppercase">Başlıklar</p>
+        <ul class="mt-4 space-y-2 text-sm">
+          <li>
+            <a href="#genel" class="text-ink-muted transition-colors hover:text-pine-700">Genel sorular</a>
+          </li>
+          {
+            groups.map((group) => (
+              <li>
+                <a href={`#${group.id}`} class="text-ink-muted transition-colors hover:text-pine-700">
+                  {group.title}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="space-y-14">
+        <section id="genel" class="scroll-mt-28">
+          <h2 class="text-2xl text-pine-900">Genel sorular</h2>
+          <FaqList faqs={FAQS} class="mt-6" />
+        </section>
+
+        {
+          groups.map((group) => (
+            <section id={group.id} class="scroll-mt-28">
+              <div class="flex flex-wrap items-baseline justify-between gap-3">
+                <h2 class="text-2xl text-pine-900">{group.title}</h2>
+                <a href={group.href} class="text-sm font-semibold text-pine-700 hover:underline">
+                  Hizmet sayfası
+                </a>
+              </div>
+              <FaqList faqs={group.faqs} class="mt-6" />
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Sorunuzun yanıtı burada yoksa"
+    text="Merak ettiğiniz her şeyi doğrudan sorabilirsiniz. Yanıtlamak için randevu almanız gerekmiyor."
+  />
+</BaseLayout>

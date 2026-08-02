@@ -1,0 +1,107 @@
+---
+import Icon from './Icon.astro';
+import { CONTACT, NAV, SITE, SOCIAL } from '../config/site';
+import { getServices } from '../lib/services';
+
+const services = await getServices();
+const year = new Date().getFullYear();
+
+const socialIcon = { Instagram: 'instagram', LinkedIn: 'linkedin', YouTube: 'youtube' } as const;
+---
+
+<footer class="mt-24 border-t border-sand-200 bg-pine-900 text-sand-100">
+  <div class="container-x grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+    <div>
+      <p class="font-display text-2xl font-semibold text-white">{SITE.name}</p>
+      <p class="mt-1 text-sm tracking-[0.14em] text-pine-200 uppercase">{SITE.jobTitle}</p>
+      <p class="mt-5 max-w-sm text-sm leading-relaxed text-pine-100/80">
+        Çocuklar, ergenler ve ebeveynler için güvenli bir terapi alanı. İstanbul’da yüz yüze, Türkiye genelinde online
+        görüşme imkânı.
+      </p>
+      <ul class="mt-6 flex gap-2">
+        {
+          SOCIAL.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                rel="me noopener"
+                target="_blank"
+                aria-label={item.label}
+                class="grid size-10 place-items-center rounded-xl border border-pine-700 text-pine-100 transition-colors hover:border-clay-300 hover:text-clay-200"
+              >
+                <Icon name={socialIcon[item.label]} size={18} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <nav aria-label="Alt menü">
+      <p class="text-sm font-semibold tracking-[0.14em] text-clay-200 uppercase">Menü</p>
+      <ul class="mt-5 space-y-3 text-sm">
+        {
+          NAV.map((item) => (
+            <li>
+              <a href={item.href} class="text-pine-100/85 transition-colors hover:text-white">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <nav aria-label="Hizmetler">
+      <p class="text-sm font-semibold tracking-[0.14em] text-clay-200 uppercase">Hizmetler</p>
+      <ul class="mt-5 space-y-3 text-sm">
+        {
+          services.map((service) => (
+            <li>
+              <a href={`/hizmetler/${service.id}`} class="text-pine-100/85 transition-colors hover:text-white">
+                {service.data.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div>
+      <p class="text-sm font-semibold tracking-[0.14em] text-clay-200 uppercase">İletişim</p>
+      <ul class="mt-5 space-y-4 text-sm">
+        <li class="flex gap-3">
+          <Icon name="phone" size={18} class="mt-0.5 shrink-0 text-clay-300" />
+          <a href={`tel:${CONTACT.phoneHref}`} class="hover:text-white">{CONTACT.phoneDisplay}</a>
+        </li>
+        <li class="flex gap-3">
+          <Icon name="mail" size={18} class="mt-0.5 shrink-0 text-clay-300" />
+          <a href={`mailto:${CONTACT.email}`} class="hover:text-white">{CONTACT.email}</a>
+        </li>
+        <li class="flex gap-3">
+          <Icon name="pin" size={18} class="mt-0.5 shrink-0 text-clay-300" />
+          <span class="text-pine-100/85">
+            {CONTACT.address.street}<br />
+            {CONTACT.address.district} / {CONTACT.address.city}
+          </span>
+        </li>
+        <li class="flex gap-3">
+          <Icon name="clock" size={18} class="mt-0.5 shrink-0 text-clay-300" />
+          <span class="text-pine-100/85">
+            {CONTACT.openingHours.map((slot) => <span class="block">{slot.days}: {slot.hours}</span>)}
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-pine-800">
+    <div class="container-x flex flex-col gap-3 py-6 text-xs text-pine-200/70 sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} {SITE.name}. Tüm hakları saklıdır.</p>
+      <p class="max-w-xl">
+        Bu sitedeki içerikler bilgilendirme amaçlıdır, tıbbi teşhis veya tedavi yerine geçmez. Acil durumlarda 112’yi
+        arayın.
+      </p>
+    </div>
+  </div>
+</footer>

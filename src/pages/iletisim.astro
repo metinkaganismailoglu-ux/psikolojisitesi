@@ -1,0 +1,223 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import PageHero from '../components/PageHero.astro';
+import { CONTACT, SITE } from '../config/site';
+
+const breadcrumbs = [{ name: 'İletişim', path: '/iletisim' }];
+const whatsapp = `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(CONTACT.whatsappMessage)}`;
+
+/** Formspree, Web3Forms vb. bir servisin uç noktasıyla değiştirin. */
+const FORM_ENDPOINT = 'https://formspree.io/f/FORM_ID';
+
+const channels = [
+  {
+    icon: 'phone',
+    label: 'Telefon',
+    value: CONTACT.phoneDisplay,
+    href: `tel:${CONTACT.phoneHref}`,
+    note: 'Seans saatlerinde ulaşılamayabilir; mesaj bırakırsanız dönüş yapılır.',
+  },
+  {
+    icon: 'whatsapp',
+    label: 'WhatsApp',
+    value: 'Mesaj gönderin',
+    href: whatsapp,
+    note: 'Randevu ve bilgi talepleri için en hızlı kanal.',
+  },
+  {
+    icon: 'mail',
+    label: 'E-posta',
+    value: CONTACT.email,
+    href: `mailto:${CONTACT.email}`,
+    note: 'Detaylı sorularınız için uygundur.',
+  },
+];
+---
+
+<BaseLayout
+  title="İletişim ve Randevu"
+  description={`${SITE.name} ile iletişime geçin. ${CONTACT.address.district} / ${CONTACT.address.city} ofisinde yüz yüze, Türkiye genelinde online randevu.`}
+  path="/iletisim"
+  breadcrumbs={breadcrumbs}
+>
+  <PageHero
+    eyebrow="İletişim"
+    title="Randevu ve iletişim"
+    text="Ön görüşme için aşağıdaki kanallardan bana ulaşabilir ya da formu doldurabilirsiniz. Talepler genellikle aynı gün içinde yanıtlanır."
+    breadcrumbs={breadcrumbs}
+  />
+
+  <section class="container-x py-16 md:py-24">
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        channels.map((channel, i) => (
+          <a
+            href={channel.href}
+            target={channel.href.startsWith('http') ? '_blank' : undefined}
+            rel={channel.href.startsWith('http') ? 'noopener' : undefined}
+            class="reveal card group flex flex-col p-7 transition-transform duration-300 hover:-translate-y-1.5"
+            data-delay={i * 90}
+          >
+            <span class="grid size-12 place-items-center rounded-2xl bg-pine-50 text-pine-600 transition-colors group-hover:bg-pine-600 group-hover:text-sand-50">
+              <Icon name={channel.icon} size={24} />
+            </span>
+            <span class="mt-5 text-xs font-semibold tracking-[0.12em] text-ink-muted uppercase">{channel.label}</span>
+            <span class="mt-1 font-display text-lg font-semibold text-pine-900">{channel.value}</span>
+            <span class="mt-3 text-sm leading-relaxed text-ink-muted">{channel.note}</span>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="mt-16 grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+      <div class="reveal card p-8 md:p-10">
+        <h2 class="text-2xl text-pine-900">Randevu talep formu</h2>
+        <p class="mt-3 text-sm leading-relaxed text-ink-muted">
+          Formu doldurduğunuzda size en kısa sürede dönüş yapılır. Lütfen bu formda hassas sağlık bilgisi paylaşmayın;
+          detayları görüşmede konuşuruz.
+        </p>
+
+        <form action={FORM_ENDPOINT} method="POST" class="mt-8 grid gap-5">
+          <input type="hidden" name="_next" value={new URL('/tesekkurler', SITE.url).href} />
+          <input type="hidden" name="_subject" value="Web sitesi randevu talebi" />
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="name" class="block text-sm font-semibold text-ink">Ad Soyad</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                autocomplete="name"
+                class="mt-2 w-full rounded-2xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm outline-none transition-colors focus:border-pine-400 focus:bg-white"
+              />
+            </div>
+            <div>
+              <label for="phone" class="block text-sm font-semibold text-ink">Telefon</label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                required
+                autocomplete="tel"
+                inputmode="tel"
+                class="mt-2 w-full rounded-2xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm outline-none transition-colors focus:border-pine-400 focus:bg-white"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-semibold text-ink">E-posta</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              class="mt-2 w-full rounded-2xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm outline-none transition-colors focus:border-pine-400 focus:bg-white"
+            />
+          </div>
+
+          <div>
+            <label for="topic" class="block text-sm font-semibold text-ink">Görüşme konusu</label>
+            <select
+              id="topic"
+              name="topic"
+              class="mt-2 w-full rounded-2xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm outline-none transition-colors focus:border-pine-400 focus:bg-white"
+            >
+              <option>Çocuk terapisi</option>
+              <option>Ergen terapisi</option>
+              <option>Ebeveyn danışmanlığı</option>
+              <option>Online terapi</option>
+              <option>Psikolojik değerlendirme</option>
+              <option>Diğer</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="message" class="block text-sm font-semibold text-ink">Kısa notunuz</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="4"
+              class="mt-2 w-full rounded-2xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm outline-none transition-colors focus:border-pine-400 focus:bg-white"
+            ></textarea>
+          </div>
+
+          <label class="flex items-start gap-3 text-sm text-ink-muted">
+            <input
+              type="checkbox"
+              name="kvkk"
+              required
+              class="mt-1 size-4 rounded border-sand-300 text-pine-600 focus:ring-pine-500"
+            />
+            <span>
+              <a href="/kvkk" class="font-semibold text-pine-700 hover:underline">Aydınlatma metnini</a>
+              okudum; iletişim bilgilerimin randevu amacıyla işlenmesini kabul ediyorum.
+            </span>
+          </label>
+
+          <button type="submit" class="btn btn-primary mt-2 justify-self-start">
+            Randevu talebi gönder
+            <Icon name="arrow" size={18} />
+          </button>
+        </form>
+      </div>
+
+      <div class="space-y-6">
+        <div class="reveal card p-8">
+          <h2 class="text-xl text-pine-900">Ofis</h2>
+          <ul class="mt-6 space-y-5 text-sm">
+            <li class="flex gap-3">
+              <Icon name="pin" size={20} class="mt-0.5 shrink-0 text-pine-600" />
+              <span class="text-ink-muted">
+                {CONTACT.address.street}<br />
+                {CONTACT.address.postalCode} {CONTACT.address.district} / {CONTACT.address.city}
+              </span>
+            </li>
+            <li class="flex gap-3">
+              <Icon name="clock" size={20} class="mt-0.5 shrink-0 text-pine-600" />
+              <span class="text-ink-muted">
+                {
+                  CONTACT.openingHours.map((slot) => (
+                    <span class="flex justify-between gap-6">
+                      <span>{slot.days}</span>
+                      <span class="font-medium text-ink">{slot.hours}</span>
+                    </span>
+                  ))
+                }
+              </span>
+            </li>
+          </ul>
+
+          <a href={CONTACT.mapsUrl} target="_blank" rel="noopener" class="btn btn-secondary mt-7 w-full">
+            Yol tarifi al
+            <Icon name="arrow" size={18} />
+          </a>
+        </div>
+
+        <div class="reveal overflow-hidden rounded-4xl border border-sand-200" data-delay="120">
+          <iframe
+            title="Ofis konumu haritası"
+            src="https://maps.google.com/maps?q=Kad%C4%B1k%C3%B6y%20%C4%B0stanbul&z=14&output=embed"
+            width="100%"
+            height="320"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            style="border:0"
+          ></iframe>
+        </div>
+
+        <div class="reveal rounded-4xl bg-clay-100 p-7" data-delay="160">
+          <p class="font-display text-lg font-semibold text-pine-900">Acil durumlar</p>
+          <p class="mt-3 text-sm leading-relaxed text-ink-muted">
+            Bu site acil durum hizmeti sunmaz. Kendinize veya bir başkasına zarar verme riski olan durumlarda lütfen
+            <strong class="text-ink"> 112</strong> Acil Çağrı Merkezi’ni arayın ya da en yakın acil servise başvurun.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

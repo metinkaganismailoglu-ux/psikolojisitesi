@@ -1,0 +1,128 @@
+---
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/plus-jakarta-sans';
+import '../styles/global.css';
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFab from '../components/WhatsAppFab.astro';
+import { SITE } from '../config/site';
+import { baseGraph, breadcrumbSchema, webPageSchema } from '../lib/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Sayfanın kanonik yolu, ör. "/hakkimda" */
+  path: string;
+  image?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  breadcrumbs?: { name: string; path: string }[];
+  /** Sayfaya özel schema.org düğümleri */
+  schema?: Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  path,
+  image = SITE.defaultOgImage,
+  ogType = 'website',
+  noindex = false,
+  breadcrumbs = [],
+  schema = [],
+} = Astro.props;
+
+const canonical = new URL(path, SITE.url).href;
+const ogImage = new URL(image, SITE.url).href;
+const fullTitle = path === '/' ? title : `${title} | ${SITE.name}`;
+
+const graph = [
+  ...baseGraph(),
+  webPageSchema({ title: fullTitle, description, path }),
+  ...(breadcrumbs.length ? [breadcrumbSchema([{ name: 'Ana Sayfa', path: '/' }, ...breadcrumbs])] : []),
+  ...schema,
+];
+
+const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
+---
+
+<!doctype html>
+<html lang={SITE.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content={SITE.themeColor} />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={SITE.name} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {!noindex && <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />}
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.name} — Blog`} href="/rss.xml" />
+
+    <script type="application/ld+json" is:inline set:html={jsonLd}></script>
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+
+  <body class="min-h-screen antialiased">
+    <a
+      href="#icerik"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-full focus:bg-pine-700 focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-white"
+    >
+      İçeriğe geç
+    </a>
+
+    <Header />
+
+    <main id="icerik">
+      <slot />
+    </main>
+
+    <Footer />
+    <WhatsAppFab />
+
+    <script>
+      const items = document.querySelectorAll('.reveal');
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                (entry.target as HTMLElement).style.transitionDelay =
+                  ((entry.target as HTMLElement).dataset.delay ?? '0') + 'ms';
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+        );
+        items.forEach((item) => observer.observe(item));
+      } else {
+        items.forEach((item) => item.classList.add('is-visible'));
+      }
+    </script>
+  </body>
+</html>

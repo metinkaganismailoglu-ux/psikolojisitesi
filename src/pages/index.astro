@@ -1,0 +1,342 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import FaqList from '../components/FaqList.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import { CONTACT, FAQS, PROCESS, PROFILE, SITE } from '../config/site';
+import { getPosts, getServices } from '../lib/services';
+
+const services = await getServices();
+const posts = (await getPosts()).slice(0, 3);
+const whatsapp = `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(CONTACT.whatsappMessage)}`;
+
+const concerns = [
+  { icon: 'moon', title: 'Uyku ve kâbuslar', text: 'Uykuya dalmakta zorlanma, gece uyanmaları, yalnız uyuyamama.' },
+  { icon: 'spark', title: 'Öfke patlamaları', text: 'Yaşına göre şiddetli, sık ve sakinleşmesi güç tepkiler.' },
+  { icon: 'school', title: 'Okula gitmek istememe', text: 'Sabah karın ağrısı, ağlama krizleri, okulda ayrılamama.' },
+  { icon: 'heart', title: 'Kaygı ve korkular', text: 'Ayrılık kaygısı, karanlık korkusu, sürekli “ya olursa” düşüncesi.' },
+  { icon: 'users', title: 'Akran ilişkileri', text: 'Arkadaş edinememe, dışlanma, zorbalıkla baş edememe.' },
+  { icon: 'leaf', title: 'Aile içi değişimler', text: 'Boşanma, kayıp, taşınma, kardeş doğumu gibi geçiş dönemleri.' },
+];
+
+const values = [
+  {
+    icon: 'shield',
+    title: 'Gizlilik esastır',
+    text: 'Seans içeriği, çocuğun güvenliğini ilgilendiren durumlar dışında paylaşılmaz.',
+  },
+  {
+    icon: 'chat',
+    title: 'Aileyle birlikte',
+    text: 'Değişimin büyük bölümü evde olur. Ebeveyn görüşmeleri sürecin ayrılmaz parçasıdır.',
+  },
+  {
+    icon: 'check',
+    title: 'Kanıta dayalı yöntem',
+    text: 'Oyun terapisi ve bilişsel davranışçı terapi gibi etkinliği araştırmalarla desteklenen yaklaşımlar.',
+  },
+];
+---
+
+<BaseLayout
+  title={SITE.title}
+  description={SITE.description}
+  path="/"
+  ogType="website"
+>
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="pointer-events-none absolute inset-0 -z-10 bg-linear-to-b from-pine-50 via-sand-50 to-sand-50"></div>
+    <div class="pointer-events-none absolute -top-40 -right-32 -z-10 size-[38rem] rounded-full bg-pine-100/70 blur-3xl"></div>
+    <div class="pointer-events-none absolute top-40 -left-40 -z-10 size-[30rem] rounded-full bg-clay-100/70 blur-3xl"></div>
+
+    <div class="container-x grid items-center gap-14 py-16 md:py-24 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+      <div class="reveal">
+        <p class="eyebrow">Çocuk &amp; Ergen Psikoloğu</p>
+
+        <h1 class="mt-6 text-4xl leading-[1.08] text-pine-900 sm:text-5xl lg:text-[3.6rem]">
+          Çocuğunuzun duygularını <span class="text-clay-600">güvenle</span> ifade edebileceği bir alan
+        </h1>
+
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted">
+          {PROFILE.intro} İstanbul’daki ofisimde yüz yüze, Türkiye’nin her yerinden online görüşme yapıyorum.
+        </p>
+
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+          <a href={`tel:${CONTACT.phoneHref}`} class="btn btn-primary">
+            <Icon name="phone" size={18} />
+            Ön görüşme talep et
+          </a>
+          <a href="/hizmetler" class="btn btn-secondary">
+            Hizmetleri incele
+            <Icon name="arrow" size={18} />
+          </a>
+        </div>
+
+        <dl class="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-sand-200 pt-8">
+          {
+            PROFILE.stats.map((stat) => (
+              <div>
+                <dt class="sr-only">{stat.label}</dt>
+                <dd>
+                  <span class="block font-display text-3xl font-semibold text-pine-700">{stat.value}</span>
+                  <span class="mt-1 block text-sm leading-snug text-ink-muted">{stat.label}</span>
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+
+      <div class="reveal relative" data-delay="120">
+        <div class="absolute -inset-4 -z-10 rotate-3 rounded-5xl bg-pine-100/80"></div>
+        <img
+          src="/images/portre.svg"
+          alt={`${SITE.name}, çocuk ve ergen psikoloğu`}
+          width="640"
+          height="800"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="aspect-4/5 w-full rounded-5xl object-cover shadow-lift"
+        />
+
+        <div class="card absolute -bottom-6 -left-4 flex items-center gap-3 px-5 py-4 sm:-left-8">
+          <span class="grid size-10 place-items-center rounded-xl bg-clay-100 text-clay-600">
+            <Icon name="screen" size={20} />
+          </span>
+          <span class="text-sm leading-tight">
+            <span class="block font-semibold text-pine-900">Online terapi</span>
+            <span class="text-ink-muted">Türkiye geneli &amp; yurt dışı</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Değerler -->
+  <section class="container-x">
+    <ul class="grid gap-4 md:grid-cols-3">
+      {
+        values.map((value, i) => (
+          <li class="reveal card flex gap-4 p-6" data-delay={i * 90}>
+            <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-pine-50 text-pine-600">
+              <Icon name={value.icon} size={22} />
+            </span>
+            <div>
+              <p class="font-display text-lg font-semibold text-pine-900">{value.title}</p>
+              <p class="mt-1.5 text-sm leading-relaxed text-ink-muted">{value.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- Başvuru nedenleri -->
+  <section class="container-x py-20 md:py-28">
+    <SectionHeading
+      eyebrow="Ne zaman destek almalı?"
+      title="Bu başlıklardan biri size tanıdık geliyorsa yalnız değilsiniz"
+      text="Aşağıdaki durumlar iki-üç haftadan uzun sürüyor ve günlük hayatı etkiliyorsa bir uzmanla konuşmak süreci belirgin biçimde kısaltır."
+    />
+
+    <ul class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        concerns.map((item, i) => (
+          <li
+            class="reveal group rounded-4xl border border-sand-200 bg-white/70 p-6 transition-colors duration-300 hover:border-pine-200 hover:bg-white"
+            data-delay={(i % 3) * 80}
+          >
+            <span class="grid size-11 place-items-center rounded-xl bg-sand-100 text-pine-700 transition-colors group-hover:bg-pine-50">
+              <Icon name={item.icon} size={22} />
+            </span>
+            <p class="mt-5 font-display text-lg font-semibold text-pine-900">{item.title}</p>
+            <p class="mt-2 text-sm leading-relaxed text-ink-muted">{item.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- Hizmetler -->
+  <section class="bg-white/60 py-20 md:py-28">
+    <div class="container-x">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <SectionHeading
+          eyebrow="Hizmetler"
+          title="İhtiyacınıza göre şekillenen çalışma alanları"
+          text="Her süreç, ön görüşmede belirlenen hedeflere göre kişiye özel planlanır."
+        />
+        <a href="/hizmetler" class="btn btn-secondary reveal">
+          Tümünü gör
+          <Icon name="arrow" size={18} />
+        </a>
+      </div>
+
+      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          services.map((service, i) => (
+            <ServiceCard
+              title={service.data.shortTitle}
+              description={service.data.description}
+              href={`/hizmetler/${service.id}`}
+              icon={service.data.icon}
+              meta={service.data.ageRange}
+              delay={(i % 3) * 90}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Süreç -->
+  <section class="container-x py-20 md:py-28">
+    <SectionHeading
+      eyebrow="Süreç"
+      title="İlk aramadan terapiye: nasıl ilerliyoruz?"
+      text="Belirsizlik kaygıyı artırır. Bu yüzden süreci baştan şeffaf biçimde paylaşıyorum."
+      align="center"
+    />
+
+    <ol class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      {
+        PROCESS.map((step, i) => (
+          <li class="reveal relative" data-delay={i * 90}>
+            <div class="card h-full p-7">
+              <span class="font-display text-5xl font-semibold text-pine-100">{String(i + 1).padStart(2, '0')}</span>
+              <p class="mt-3 font-display text-xl font-semibold text-pine-900">{step.title}</p>
+              <p class="mt-3 text-sm leading-relaxed text-ink-muted">{step.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- Hakkımda özeti -->
+  <section class="container-x pb-20 md:pb-28">
+    <div class="reveal grid items-center gap-10 overflow-hidden rounded-5xl border border-sand-200 bg-white p-8 md:grid-cols-[0.85fr_1.15fr] md:p-12">
+      <div class="relative">
+        <div class="absolute -inset-3 -rotate-2 rounded-4xl bg-clay-100"></div>
+        <img
+          src="/images/portre.svg"
+          alt={`${SITE.name} portresi`}
+          width="640"
+          height="800"
+          loading="lazy"
+          decoding="async"
+          class="relative aspect-square w-full rounded-4xl object-cover object-top"
+        />
+      </div>
+
+      <div>
+        <p class="eyebrow">Hakkımda</p>
+        <h2 class="mt-4 text-3xl text-pine-900 sm:text-4xl">Merhaba, ben {SITE.shortName}</h2>
+        <p class="mt-5 leading-relaxed text-ink-muted">{PROFILE.bio[1]}</p>
+
+        <ul class="mt-7 grid gap-3 sm:grid-cols-2">
+          {
+            [...PROFILE.certificates].slice(0, 4).map((cert) => (
+              <li class="flex items-start gap-2.5 text-sm text-ink">
+                <span class="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-pine-100 text-pine-700">
+                  <Icon name="check" size={14} />
+                </span>
+                {cert.title}
+              </li>
+            ))
+          }
+        </ul>
+
+        <a href="/hakkimda" class="btn btn-secondary mt-8">
+          Daha fazlasını okuyun
+          <Icon name="arrow" size={18} />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Online terapi bandı -->
+  <section class="container-x">
+    <div class="reveal grid gap-8 rounded-5xl bg-pine-50 p-8 md:grid-cols-[1fr_auto] md:items-center md:p-12">
+      <div>
+        <p class="eyebrow bg-white">Uzaktan destek</p>
+        <h2 class="mt-4 text-2xl text-pine-900 sm:text-3xl">Şehir dışında mısınız? Online görüşelim.</h2>
+        <p class="mt-4 max-w-2xl leading-relaxed text-ink-muted">
+          Ergenler ve ebeveynler için online seanslar, yüz yüze görüşmelerle benzer etkinlik gösterir. Tek ihtiyacınız
+          sessiz bir oda ve sabit bir internet bağlantısı.
+        </p>
+      </div>
+      <div class="flex flex-col gap-3 sm:flex-row md:flex-col">
+        <a href="/hizmetler/online-terapi" class="btn btn-primary">Online terapi hakkında</a>
+        <a href={whatsapp} target="_blank" rel="noopener" class="btn btn-secondary">
+          <Icon name="whatsapp" size={18} />
+          Hemen yazın
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  {
+    posts.length > 0 && (
+      <section class="container-x py-20 md:py-28">
+        <div class="flex flex-wrap items-end justify-between gap-6">
+          <SectionHeading
+            eyebrow="Blog"
+            title="Ebeveynler için yazılar"
+            text="Sık sorulan soruları, klinik deneyimden süzülmüş ve uygulanabilir yanıtlarla ele alıyorum."
+          />
+          <a href="/blog" class="btn btn-secondary reveal">
+            Tüm yazılar
+            <Icon name="arrow" size={18} />
+          </a>
+        </div>
+
+        <div class="mt-12 grid gap-5 md:grid-cols-3">
+          {posts.map((post, i) => (
+            <article
+              class="reveal group card relative flex h-full flex-col p-7 transition-transform duration-300 hover:-translate-y-1.5"
+              data-delay={i * 90}
+            >
+              <span class="text-xs font-semibold tracking-[0.12em] text-clay-600 uppercase">{post.data.category}</span>
+              <h3 class="mt-3 font-display text-xl leading-snug text-pine-900">
+                <a href={`/blog/${post.id}`} class="after:absolute after:inset-0 after:content-['']">
+                  {post.data.title}
+                </a>
+              </h3>
+              <p class="mt-3 flex-1 text-sm leading-relaxed text-ink-muted">{post.data.description}</p>
+              <p class="mt-6 flex items-center gap-2 text-xs text-ink-muted">
+                <Icon name="clock" size={14} />
+                {post.data.readingTime} dk okuma
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <!-- SSS -->
+  <section class="container-x pb-4">
+    <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+      <SectionHeading
+        eyebrow="Sık sorulan sorular"
+        title="Merak ettikleriniz"
+        text="Aradığınız yanıtı bulamazsanız çekinmeden yazabilirsiniz."
+      />
+      <div>
+        <FaqList faqs={FAQS.slice(0, 5)} class="reveal" />
+        <a href="/sss" class="btn btn-secondary mt-6">
+          Tüm soruları gör
+          <Icon name="arrow" size={18} />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>

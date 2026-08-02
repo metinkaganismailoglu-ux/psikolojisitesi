@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 800" width="640" height="800" role="img" aria-label="Psikolog portre g&#246;rseli yer tutucusu">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d9ebe9"/>
+      <stop offset="100%" stop-color="#f8f3ea"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a807a"/>
+      <stop offset="100%" stop-color="#275a57"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="640" height="800" fill="url(#bg)"/>
+  <circle cx="150" cy="140" r="90" fill="#b4d7d3" opacity="0.55"/>
+  <circle cx="540" cy="250" r="130" fill="#f9d8bd" opacity="0.6"/>
+  <circle cx="90" cy="620" r="110" fill="#f2b98c" opacity="0.35"/>
+
+  <g transform="translate(0,40)">
+    <ellipse cx="320" cy="760" rx="250" ry="220" fill="url(#body)"/>
+    <path d="M320 300c62 0 108 46 108 108 0 74-48 128-108 128s-108-54-108-128c0-62 46-108 108-108z" fill="#f2c9a8"/>
+    <path d="M212 400c0-70 48-118 108-118s108 48 108 118c6-96-40-146-108-146s-114 54-108 146z" fill="#204846"/>
+    <circle cx="285" cy="410" r="7" fill="#204846"/>
+    <circle cx="357" cy="410" r="7" fill="#204846"/>
+    <path d="M298 458c14 12 30 12 44 0" stroke="#204846" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <path d="M262 372c14-8 28-8 40 0M340 372c12-8 26-8 40 0" stroke="#204846" stroke-width="7" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>

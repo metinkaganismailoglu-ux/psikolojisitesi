@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { CONTACT } from '../config/site';
+---
+
+<BaseLayout
+  title="Talebiniz alındı"
+  description="Randevu talebiniz tarafımıza ulaştı."
+  path="/tesekkurler"
+  noindex={true}
+>
+  <section class="container-x flex min-h-[60vh] items-center justify-center py-24 text-center">
+    <div class="max-w-xl">
+      <span class="mx-auto grid size-16 place-items-center rounded-3xl bg-pine-50 text-pine-600">
+        <Icon name="check" size={32} />
+      </span>
+      <h1 class="mt-8 text-4xl text-pine-900">Talebiniz bize ulaştı</h1>
+      <p class="mt-5 text-lg leading-relaxed text-ink-muted">
+        En kısa sürede, genellikle aynı gün içinde size dönüş yapacağım. Acil bir durumsa doğrudan telefonla
+        ulaşabilirsiniz.
+      </p>
+      <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+        <a href={`tel:${CONTACT.phoneHref}`} class="btn btn-primary">
+          <Icon name="phone" size={18} />
+          {CONTACT.phoneDisplay}
+        </a>
+        <a href="/" class="btn btn-secondary">Ana sayfaya dön</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

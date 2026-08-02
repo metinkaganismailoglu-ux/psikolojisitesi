@@ -1,0 +1,35 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  icon: string;
+  meta?: string;
+  delay?: number;
+}
+
+const { title, description, href, icon, meta, delay = 0 } = Astro.props;
+---
+
+<article class="reveal group card relative flex h-full flex-col p-7 transition-[transform,box-shadow] duration-300 hover:-translate-y-1.5 hover:shadow-lift" data-delay={delay}>
+  <span
+    class="grid size-13 place-items-center rounded-2xl bg-pine-50 text-pine-600 transition-colors duration-300 group-hover:bg-pine-600 group-hover:text-sand-50"
+  >
+    <Icon name={icon} size={26} />
+  </span>
+
+  <h3 class="mt-6 text-xl text-pine-900">
+    <a href={href} class="after:absolute after:inset-0 after:content-['']">{title}</a>
+  </h3>
+  <p class="mt-3 flex-1 text-[0.97rem] leading-relaxed text-ink-muted">{description}</p>
+
+  <div class="mt-6 flex items-center justify-between gap-4 border-t border-sand-200 pt-5">
+    {meta && <span class="text-xs font-semibold tracking-wide text-ink-muted uppercase">{meta}</span>}
+    <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-pine-700">
+      Detaylar
+      <Icon name="arrow" size={16} class="transition-transform duration-300 group-hover:translate-x-1" />
+    </span>
+  </div>
+</article>

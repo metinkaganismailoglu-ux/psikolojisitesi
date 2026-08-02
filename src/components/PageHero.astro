@@ -1,0 +1,47 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  text?: string;
+  breadcrumbs?: { name: string; path: string }[];
+}
+
+const { eyebrow, title, text, breadcrumbs = [] } = Astro.props;
+---
+
+<section class="relative overflow-hidden border-b border-sand-200 bg-pine-50/60">
+  <div class="pointer-events-none absolute -top-32 right-0 size-96 rounded-full bg-clay-100/60 blur-3xl"></div>
+
+  <div class="container-x relative py-14 md:py-20">
+    {
+      breadcrumbs.length > 0 && (
+        <nav aria-label="Sayfa yolu" class="mb-6">
+          <ol class="flex flex-wrap items-center gap-2 text-sm text-ink-muted">
+            <li>
+              <a href="/" class="hover:text-pine-700">
+                Ana Sayfa
+              </a>
+            </li>
+            {breadcrumbs.map((crumb, i) => (
+              <li class="flex items-center gap-2">
+                <span aria-hidden="true">/</span>
+                {i === breadcrumbs.length - 1 ? (
+                  <span class="text-pine-800">{crumb.name}</span>
+                ) : (
+                  <a href={crumb.path} class="hover:text-pine-700">
+                    {crumb.name}
+                  </a>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+
+    {eyebrow && <p class="eyebrow bg-white">{eyebrow}</p>}
+    <h1 class="mt-5 max-w-3xl text-4xl leading-[1.12] text-pine-900 sm:text-5xl">{title}</h1>
+    {text && <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted">{text}</p>}
+    <slot />
+  </div>
+</section>

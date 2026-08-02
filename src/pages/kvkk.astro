@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { CONTACT, SITE } from '../config/site';
+
+const breadcrumbs = [{ name: 'KVKK Aydınlatma Metni', path: '/kvkk' }];
+---
+
+<BaseLayout
+  title="KVKK Aydınlatma Metni"
+  description="Kişisel verilerin işlenmesine ilişkin aydınlatma metni ve gizlilik politikası."
+  path="/kvkk"
+  breadcrumbs={breadcrumbs}
+>
+  <PageHero
+    eyebrow="Yasal"
+    title="KVKK Aydınlatma Metni ve Gizlilik Politikası"
+    text="Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında hazırlanmış örnek bir şablondur. Yayına almadan önce bir hukuk danışmanıyla gözden geçirmeniz önerilir."
+    breadcrumbs={breadcrumbs}
+  />
+
+  <section class="container-x py-16 md:py-24">
+    <div
+      class="prose prose-lg max-w-3xl prose-headings:font-display prose-headings:text-pine-900 prose-p:text-ink-muted prose-li:text-ink-muted prose-strong:text-ink"
+    >
+      <h2>Veri sorumlusu</h2>
+      <p>
+        Kişisel verileriniz, veri sorumlusu sıfatıyla {SITE.name} tarafından aşağıda açıklanan kapsamda işlenmektedir.
+        İletişim: <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+      </p>
+
+      <h2>İşlenen veriler ve amaçları</h2>
+      <ul>
+        <li><strong>İletişim verileri</strong> (ad, telefon, e-posta): randevu taleplerinin yanıtlanması</li>
+        <li><strong>Randevu bilgileri</strong>: seans planlaması ve hatırlatma</li>
+        <li><strong>Sağlık verileri</strong>: yalnızca terapi süreci kapsamında, açık rızanızla ve mesleki gizlilik ilkeleri çerçevesinde</li>
+      </ul>
+
+      <h2>Hukuki sebep</h2>
+      <p>
+        Veriler; sözleşmenin kurulması ve ifası, hukuki yükümlülüklerin yerine getirilmesi ve açık rıza hukuki
+        sebeplerine dayanılarak işlenir.
+      </p>
+
+      <h2>Saklama süresi</h2>
+      <p>
+        Klinik kayıtlar, meslek etiği ve ilgili mevzuatın öngördüğü süre boyunca saklanır; sürenin sonunda silinir veya
+        anonim hâle getirilir.
+      </p>
+
+      <h2>Verilerin aktarılması</h2>
+      <p>
+        Kişisel verileriniz, yasal zorunluluklar dışında üçüncü kişilerle paylaşılmaz. Online görüşmelerde kullanılan
+        teknik altyapı sağlayıcıları yalnızca hizmetin sunulması için gerekli ölçüde veri işleyebilir.
+      </p>
+
+      <h2>Haklarınız</h2>
+      <p>
+        KVKK’nın 11. maddesi uyarınca; verilerinizin işlenip işlenmediğini öğrenme, düzeltilmesini veya silinmesini
+        isteme, işlenmesine itiraz etme ve zararın giderilmesini talep etme haklarına sahipsiniz. Taleplerinizi
+        yukarıdaki e-posta adresine iletebilirsiniz.
+      </p>
+
+      <h2>Çerezler</h2>
+      <p>
+        Bu web sitesi, çalışması için gerekli olmayan takip çerezleri kullanmaz. Ziyaret istatistikleri
+        toplanacaksa, gizlilik dostu ve çerezsiz bir analiz aracı tercih edilir.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,125 @@
+---
+import Icon from './Icon.astro';
+import { CONTACT, NAV, SITE } from '../config/site';
+
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? current === '/' : current.startsWith(href));
+---
+
+<header id="site-header" class="sticky top-0 z-50 transition-[background-color,box-shadow] duration-300">
+  <div class="border-b border-sand-200/70 bg-sand-50/85 backdrop-blur-md">
+    <div class="container-x flex h-18 items-center justify-between gap-6 py-3">
+      <a href="/" class="group flex items-center gap-3" aria-label={`${SITE.name} ana sayfa`}>
+        <span
+          class="grid size-11 place-items-center rounded-2xl bg-pine-600 text-sand-50 transition-transform duration-300 group-hover:-rotate-6"
+        >
+          <svg viewBox="0 0 32 32" class="size-6" fill="none" aria-hidden="true">
+            <path
+              d="M16 26c-5-3-9-6.6-9-11.3A5 5 0 0 1 16 11a5 5 0 0 1 9 3.7C25 19.4 21 23 16 26Z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linejoin="round"></path>
+            <circle cx="16" cy="6" r="2.4" stroke="currentColor" stroke-width="2"></circle>
+          </svg>
+        </span>
+        <span class="leading-tight">
+          <span class="block font-display text-lg font-semibold text-pine-800">{SITE.shortName}</span>
+          <span class="block text-[11px] font-semibold tracking-[0.16em] text-ink-muted uppercase">
+            {SITE.jobTitle}
+          </span>
+        </span>
+      </a>
+
+      <nav aria-label="Ana menü" class="hidden lg:block">
+        <ul class="flex items-center gap-1">
+          {
+            NAV.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                  class:list={[
+                    'rounded-full px-4 py-2 text-sm font-medium transition-colors',
+                    isActive(item.href)
+                      ? 'bg-pine-100 text-pine-800'
+                      : 'text-ink-muted hover:bg-sand-100 hover:text-pine-800',
+                  ]}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <a href={`tel:${CONTACT.phoneHref}`} class="btn btn-primary hidden md:inline-flex">
+          <Icon name="phone" size={18} />
+          Randevu Al
+        </a>
+
+        <button
+          type="button"
+          id="menu-toggle"
+          class="grid size-11 place-items-center rounded-2xl border border-sand-200 bg-white text-pine-800 lg:hidden"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          aria-label="Menüyü aç"
+        >
+          <Icon name="menu" size={22} />
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    id="mobile-menu"
+    hidden
+    class="border-b border-sand-200 bg-sand-50 shadow-soft lg:hidden"
+  >
+    <nav aria-label="Mobil menü" class="container-x py-4">
+      <ul class="grid gap-1">
+        {
+          NAV.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                class:list={[
+                  'block rounded-2xl px-4 py-3 text-base font-medium',
+                  isActive(item.href) ? 'bg-pine-100 text-pine-800' : 'text-ink hover:bg-sand-100',
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a href={`tel:${CONTACT.phoneHref}`} class="btn btn-primary mt-3 w-full">
+        <Icon name="phone" size={18} />
+        {CONTACT.phoneDisplay}
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const header = document.getElementById('site-header');
+
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    toggle.setAttribute('aria-label', open ? 'Menüyü aç' : 'Menüyü kapat');
+    if (menu) menu.hidden = open;
+  });
+
+  const onScroll = () => {
+    header?.classList.toggle('shadow-soft', window.scrollY > 12);
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

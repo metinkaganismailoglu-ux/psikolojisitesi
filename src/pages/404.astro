@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { NAV } from '../config/site';
+---
+
+<BaseLayout
+  title="Sayfa bulunamadı"
+  description="Aradığınız sayfa taşınmış veya kaldırılmış olabilir."
+  path="/404"
+  noindex={true}
+>
+  <section class="container-x flex min-h-[65vh] items-center py-24">
+    <div class="mx-auto max-w-xl text-center">
+      <p class="font-display text-7xl font-semibold text-pine-200">404</p>
+      <h1 class="mt-4 text-3xl text-pine-900 sm:text-4xl">Aradığınız sayfayı bulamadım</h1>
+      <p class="mt-5 leading-relaxed text-ink-muted">
+        Bağlantı değişmiş ya da sayfa kaldırılmış olabilir. Aşağıdaki başlıklardan devam edebilirsiniz.
+      </p>
+
+      <ul class="mt-9 flex flex-wrap justify-center gap-2">
+        {
+          NAV.filter((item) => item.href !== '/').map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="inline-flex items-center gap-1.5 rounded-full border border-sand-200 bg-white px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-pine-300 hover:text-pine-800"
+              >
+                {item.label}
+                <Icon name="arrow" size={14} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <a href="/" class="btn btn-primary mt-9">Ana sayfaya dön</a>
+    </div>
+  </section>
+</BaseLayout>
