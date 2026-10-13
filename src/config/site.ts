@@ -1,11 +1,21 @@
 export const SITE = {
   name: 'Feride İsmailoğlu',
   shortName: 'Feride',
+  jobTitle: 'Çocuk & Ergen Psikoloğu',
   title: 'Uzman Psikolog Feride İsmailoğlu | Çocuk ve Ergen Psikolojisi',
   description:
     'Çocuk ve ergen psikolojisi alanında uzman kadromuzla yüz yüze ve online terapi hizmetleri sunuyoruz.',
   url: 'https://example.com',
 };
+
+export const NAV = [
+  { label: 'Ana Sayfa', href: '/' },
+  { label: 'Hakkımda', href: '/hakkimda' },
+  { label: 'Hizmetler', href: '/hizmetler' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'SSS', href: '/sss' },
+  { label: 'İletişim', href: '/iletisim' },
+];
 
 export const PROFILE = {
   name: 'Feride İsmailoğlu',
@@ -13,7 +23,7 @@ export const PROFILE = {
   intro:
     'Merhaba, ben Feride İsmailoğlu. Çocuk ve gençlerin ruhsal gelişim yolculuklarında onlara ve ailelerine profesyonel destek sağlıyorum.',
   bio: [
-    'Çocuk ve ergen psikolojisi alanında uzun yıllardır klinik çalışmalar yürütmekteyim.',
+    'Çocuk ve ergen psikolojisi alanında klinik çalışmalar yürütmekteyim.',
     'Çocuk ve gençlerin duygusal, davranışsal ve akademik süreçlerinde kanıta dayalı terapi yöntemleriyle yanlarında yer alıyorum.',
   ],
   stats: [
@@ -24,13 +34,14 @@ export const PROFILE = {
   certificates: [
     { title: 'Deneyimsel Oyun Terapisi Eğitimi' },
     { title: 'Bilişsel Davranışçı Terapi (BDT) Uygulayıcısı' },
-    { title: 'EMDR 1. Düzey Uygulayıcı Sertifikası' },
+    { title: 'EMDR 1. Düzey Uygulayıcısı' },
     { title: 'Çocuk ve Ergenlerde Psikolojik Testler' },
   ],
 };
 
 export const CONTACT = {
   phone: '+90 500 000 00 00',
+  phoneDisplay: '0500 000 00 00',
   phoneHref: '+905000000000',
   whatsapp: '905000000000',
   whatsappMessage: 'Merhaba Feride Hanım, ön görüşme için bilgi almak istiyorum.',
