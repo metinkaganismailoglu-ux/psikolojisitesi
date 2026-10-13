@@ -49,10 +49,10 @@ export const CONTACT = {
   address: 'İstanbul, Türkiye',
 };
 
-export const SOCIAL = {
-  instagram: 'https://instagram.com',
-  linkedin: 'https://linkedin.com',
-};
+export const SOCIAL = [
+  { name: 'Instagram', href: 'https://instagram.com', icon: 'instagram' },
+  { name: 'LinkedIn', href: 'https://linkedin.com', icon: 'linkedin' },
+];
 
 export const PROCESS = [
   {
