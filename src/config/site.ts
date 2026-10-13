@@ -49,6 +49,11 @@ export const CONTACT = {
   address: 'İstanbul, Türkiye',
 };
 
+export const SOCIAL = {
+  instagram: 'https://instagram.com',
+  linkedin: 'https://linkedin.com',
+};
+
 export const PROCESS = [
   {
     title: 'Ön Görüşme',
